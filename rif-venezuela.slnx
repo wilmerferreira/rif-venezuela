@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="RifVenezuela/RifVenezuela.csproj" Id="a273cdd6-c2ed-418b-b3d1-b2b510cfba0e" />
+  <Project Path="RifVenezuela.Tests/RifVenezuela.Tests.csproj" Id="c5067b90-ba85-4f6a-b75e-98e08bd47958" />
+</Solution>
