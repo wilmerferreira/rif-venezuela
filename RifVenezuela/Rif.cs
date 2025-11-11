@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RifVenezuela
@@ -6,6 +7,7 @@ namespace RifVenezuela
     /// <summary>
     /// Represents a Registro de Información Fiscal (RIF).
     /// </summary>
+    [DebuggerDisplay("{ToString(\"B\")}")]
     public struct Rif
     {
         private char _kind;
@@ -79,7 +81,30 @@ namespace RifVenezuela
         /// <returns>The value of this RifVenezuela.Rif, formatted as follows: $-########-#</returns>
         override public string ToString()
         {
-            return $"{_kind}-{_identifier:D8}-{_checksum}";
+            return ToString("D");
+        }
+
+        /// <summary>
+        /// Returns a string representation of the value of this Rif instance, according to the provided format specifier.
+        /// </summary>
+        /// <param name="format">A single format specifier that indicates how to format the value of this Rif. The format parameter can be "N", "D", "B". If format is null or an empty string (""), "D" is used.</param>
+        /// <returns>The value of this Rif, represented with an uppercase prefix followed by 8 digits, and the check digithexadecimal
+        public string ToString(string format)
+        {
+            if (string.IsNullOrWhiteSpace(format))
+                return ToString();
+
+            switch (format)
+            {
+                case "D":
+                    return $"{_kind}-{_identifier:D8}-{_checksum}";
+                case "N":
+                    return $"{_kind}{_identifier:D8}{_checksum}";
+                case "B":
+                    return $"{{{_kind}-{_identifier:D8}-{_checksum}}}";
+                default:
+                    throw new FormatException();
+            }
         }
     }
 }

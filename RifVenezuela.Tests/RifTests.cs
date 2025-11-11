@@ -48,9 +48,23 @@ public class RifTests
     [InlineData('J', 00008933, "J-00008933-7")]
     [InlineData('J', 30142060, "J-30142060-8")]
     [InlineData('J', 00006372, "J-00006372-9")]
-    public void Constructor_WithValidTypeAndNumber_CreatesRif(char type, int identifier, string expectedRif) 
+    public void Constructor_WithValidTypeAndNumber_CreatesRif(char type, int identifier, string expectedRif)
     {
         var rif = new Rif(type, identifier);
         rif.ToString().ShouldBe(expectedRif);
+    }
+
+    [Theory]
+    [InlineData('G', 20000001, "D", "G-20000001-5")]
+    [InlineData('G', 20000001, "N", "G200000015")]
+    [InlineData('G', 20000001, "B", "{G-20000001-5}")]
+    public void ToString_WithValidFormat_ShouldReturnExpectedString(char kind, int identifier, string format, string expectedString)
+    {
+        var id = Guid.NewGuid();
+        var toString = id.ToString();
+
+        var rif = new Rif(kind, identifier);
+        var result = rif.ToString(format);
+        result.ShouldBe(expectedString);
     }
 }
