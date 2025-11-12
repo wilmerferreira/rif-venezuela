@@ -55,6 +55,8 @@ public class RifTests
     }
 
     [Theory]
+    [InlineData('G', 20000001, "", "G-20000001-5")]
+    [InlineData('G', 20000001, " ", "G-20000001-5")]
     [InlineData('G', 20000001, "D", "G-20000001-5")]
     [InlineData('G', 20000001, "N", "G200000015")]
     [InlineData('G', 20000001, "B", "{G-20000001-5}")]

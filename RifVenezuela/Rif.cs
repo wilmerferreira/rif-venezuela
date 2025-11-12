@@ -46,7 +46,7 @@ namespace RifVenezuela
             else if (kind == 'J' || kind == 'C') sum = 12;
             else if (kind == 'P') sum = 16;
             else if (kind == 'G') sum = 20;
-            else throw new ArgumentOutOfRangeException(nameof(kind), "Invalid rif type");
+            else throw new ArgumentOutOfRangeException(nameof(kind), "Invalid kind");
 
             var digits = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
             var position = 1;
@@ -92,7 +92,7 @@ namespace RifVenezuela
         public string ToString(string format)
         {
             if (string.IsNullOrWhiteSpace(format))
-                return ToString();
+                format = "D";
 
             switch (format)
             {
