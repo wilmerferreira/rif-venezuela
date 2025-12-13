@@ -62,9 +62,6 @@ public class RifTests
     [InlineData('G', 20000001, "B", "{G-20000001-5}")]
     public void ToString_WithValidFormat_ShouldReturnExpectedString(char kind, int identifier, string format, string expectedString)
     {
-        var id = Guid.NewGuid();
-        var toString = id.ToString();
-
         var rif = new Rif(kind, identifier);
         var result = rif.ToString(format);
         result.ShouldBe(expectedString);

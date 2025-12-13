@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace RifVenezuela
 {
@@ -25,12 +24,10 @@ namespace RifVenezuela
             if (identifier < 1 || identifier > 99_999_999)
                 throw new ArgumentOutOfRangeException(nameof(identifier), "Identifier must be between 1 and 99,999,999");
 
-            if (kind == 'v') kind = 'V';
-            if (kind == 'e') kind = 'E';
-            if (kind == 'j') kind = 'J';
-            if (kind == 'c') kind = 'C';
-            if (kind == 'p') kind = 'P';
-            if (kind == 'g') kind = 'G';
+            kind = char.ToUpperInvariant(kind);
+
+            if (kind != 'V' && kind != 'E' && kind != 'J' && kind != 'C' && kind != 'P' && kind != 'G')
+                throw new ArgumentOutOfRangeException(nameof(kind), "Invalid kind");
 
             _kind = kind;
             _identifier = identifier;
@@ -48,7 +45,7 @@ namespace RifVenezuela
             else if (kind == 'G') sum = 20;
             else throw new ArgumentOutOfRangeException(nameof(kind), "Invalid kind");
 
-            var digits = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            var digits = new int[8];
             var position = 1;
 
             while (identifier > 0)
@@ -79,7 +76,7 @@ namespace RifVenezuela
         /// Returns a string representation of the value of this instance in the standard format.
         /// </summary>
         /// <returns>The value of this RifVenezuela.Rif, formatted as follows: $-########-#</returns>
-        override public string ToString()
+        public override string ToString()
         {
             return ToString("D");
         }
@@ -88,7 +85,8 @@ namespace RifVenezuela
         /// Returns a string representation of the value of this Rif instance, according to the provided format specifier.
         /// </summary>
         /// <param name="format">A single format specifier that indicates how to format the value of this Rif. The format parameter can be "N", "D", "B". If format is null or an empty string (""), "D" is used.</param>
-        /// <returns>The value of this Rif, represented with an uppercase prefix followed by 8 digits, and the check digithexadecimal
+        /// <returns>The value of this Rif, represented with an uppercase prefix followed by 8 digits, and the check digit</returns>
+        /// <exception cref="FormatException">The format supplied is not supported</exception>
         public string ToString(string format)
         {
             if (string.IsNullOrWhiteSpace(format))
