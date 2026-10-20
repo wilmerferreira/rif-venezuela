@@ -13,6 +13,10 @@ namespace RifVenezuela
         private int _identifier;
         private byte _checksum;
 
+        public char Kind { get { return _kind; } }
+        public int Identifier { get { return _identifier; } }
+        public byte CheckDigit { get { return _checksum; } }
+
         /// <summary>
         /// Initializes a new instance of the RifVenezuela.Rif structure by using a kind and identifier.
         /// </summary>
