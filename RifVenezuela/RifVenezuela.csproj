@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <PackageId>RifVenezuela</PackageId>
+    <Authors>Wilmer Ferreira</Authors>
+    <Description>Validation, parsing, and formatting for Venezuelan tax identification numbers (RIF).</Description>
+    <PackageTags>venezuela;rif;tax-identification;taxpayer-identification</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/wilmerferreira/rif-venezuela</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
 </Project>
