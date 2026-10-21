@@ -13,8 +13,19 @@ namespace RifVenezuela
         private int _identifier;
         private byte _checksum;
 
+        /// <summary>
+        /// Gets the kind of taxpayer represented by this RIF. Valid values are V (Venezuelan natural person), E (foreign natural person), J (legal entity), C (communal organization), P (person identified by a passport), and G (government entity).
+        /// </summary>
         public char Kind { get { return _kind; } }
+
+        /// <summary>
+        /// Gets the taxpayer's identifier.
+        /// </summary>
         public int Identifier { get { return _identifier; } }
+
+        /// <summary>
+        /// Gets the check digit for this RIF.
+        /// </summary>
         public byte CheckDigit { get { return _checksum; } }
 
         /// <summary>
