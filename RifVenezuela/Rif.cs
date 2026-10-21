@@ -68,7 +68,7 @@ namespace RifVenezuela
             sum += digits[6] * 3;
             sum += digits[7] * 2;
 
-            var checksum = 11  - sum % 11;
+            var checksum = 11 - sum % 11;
 
             if (checksum > 9)
                 checksum = 0;
@@ -107,6 +107,16 @@ namespace RifVenezuela
                 default:
                     throw new FormatException();
             }
+        }
+
+        /// <summary>
+        /// Converts a Rif to its standard string representation.
+        /// </summary>
+        /// <param name="rif">The Rif value to convert.</param>
+        /// <returns>The Rif formatted as "X-########-#".</returns>
+        public static implicit operator string(Rif rif)
+        {
+            return rif.ToString();
         }
     }
 }

@@ -66,4 +66,25 @@ public class RifTests
         var result = rif.ToString(format);
         result.ShouldBe(expectedString);
     }
+
+    [Fact]
+    public void ImplicitOperator_ToString_ShouldReturnDefaultFormat()
+    {
+        var rif = new Rif('J', 30438135);
+
+        String result = rif;
+
+        result.ShouldBe("J-30438135-2");
+    }
+
+
+    [Fact]
+    public void ExplicitOperator_ToString_ShouldReturnDefaultFormat()
+    {
+        var rif = new Rif('J', 30438135);
+
+        var result = (string)rif;
+
+        result.ShouldBe("J-30438135-2");
+    }
 }
