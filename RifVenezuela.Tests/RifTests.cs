@@ -87,4 +87,101 @@ public class RifTests
 
         result.ShouldBe("J-30438135-2");
     }
+
+    [Theory]
+    [InlineData("J-30438135-2")]
+    [InlineData("J304381352")]
+    [InlineData("{J-30438135-2}")]
+    public void Parse_WithValidString_ShouldReturnRif(string value)
+    {
+        var result = Rif.Parse(value);
+
+        result.Kind.ShouldBe('J');
+        result.Identifier.ShouldBe(30438135);
+        result.CheckDigit.ShouldBe((byte)2);
+    }
+
+    [Theory]
+    [InlineData("J-30438135-2", "D")]
+    [InlineData("J304381352", "N")]
+    [InlineData("{J-30438135-2}", "B")]
+    [InlineData("j-30438135-2", "d")]
+    public void ParseExact_WithValidStringAndFormat_ShouldReturnRif(string value, string format)
+    {
+        var result = Rif.ParseExact(value, format);
+
+        result.ToString().ShouldBe("J-30438135-2");
+    }
+
+    [Theory]
+    [InlineData("J-30438135-2", "N")]
+    [InlineData("J304381352", "D")]
+    [InlineData("J-30438135-2", "B")]
+    [InlineData("{J-30438135-2}", "D")]
+    public void ParseExact_WithDifferentFormat_ShouldThrowFormatException(string value, string format)
+    {
+        Should.Throw<FormatException>(() => Rif.ParseExact(value, format));
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("J-30438135-3")]
+    [InlineData("X-30438135-2")]
+    [InlineData("J-3043813-2")]
+    public void Parse_WithInvalidString_ShouldThrow(string value)
+    {
+        Should.Throw<Exception>(() => Rif.Parse(value));
+    }
+
+    [Theory]
+    [InlineData("J-30438135-2")]
+    [InlineData("J304381352")]
+    [InlineData("{J-30438135-2}")]
+    public void TryParse_WithValidString_ShouldReturnTrue(string value)
+    {
+        var success = Rif.TryParse(value, out var result);
+
+        success.ShouldBeTrue();
+        result.ToString().ShouldBe("J-30438135-2");
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("J-30438135-3")]
+    [InlineData("X-30438135-2")]
+    public void TryParse_WithInvalidString_ShouldReturnFalse(string value)
+    {
+        var success = Rif.TryParse(value, out var result);
+
+        success.ShouldBeFalse();
+        result.ShouldBe(default(Rif));
+    }
+
+    [Theory]
+    [InlineData("J-30438135-2", "D")]
+    [InlineData("J304381352", "N")]
+    [InlineData("{J-30438135-2}", "B")]
+    public void TryParseExact_WithValidStringAndFormat_ShouldReturnTrue(string value, string format)
+    {
+        var success = Rif.TryParseExact(value, format, out var result);
+
+        success.ShouldBeTrue();
+        result.ToString().ShouldBe("J-30438135-2");
+    }
+
+    [Theory]
+    [InlineData("J-30438135-2", "N")]
+    [InlineData("J304381352", "D")]
+    [InlineData("J-30438135-3", "D")]
+    [InlineData(null, "D")]
+    [InlineData("J-30438135-2", null)]
+    public void TryParseExact_WithInvalidStringOrFormat_ShouldReturnFalse(string value, string format)
+    {
+        var success = Rif.TryParseExact(value, format, out var result);
+
+        success.ShouldBeFalse();
+        result.ShouldBe(default(Rif));
+    }
 }
