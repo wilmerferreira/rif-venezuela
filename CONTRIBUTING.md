@@ -1,6 +1,6 @@
 # Contributing to Rif Venezuela
  
-Thanks for your interest in contributing! This project is a .NET library for handling Venezuelan tax identification numbers (RIF, *Registro Único de Información Fiscal*), and it is on its way to becoming a NuGet package. Bug reports, test cases, documentation fixes, and code are all welcome.
+Thanks for your interest in contributing! This project is a .NET library for handling Venezuelan tax identification numbers (RIF, *Registro Único de Información Fiscal*), distributed as the `RifVenezuela` NuGet package. Bug reports, test cases, documentation fixes, and code are all welcome.
  
 *¿Prefieres escribir en español? Los issues y pull requests en español son igualmente bienvenidos.*
  
@@ -23,7 +23,7 @@ Thanks for your interest in contributing! This project is a .NET library for han
  
 - **Report a bug**, such as a RIF that is validated or formatted incorrectly.
 - **Add test cases** for edge cases, formats, or RIF types the library doesn't cover yet.
-- **Improve the docs.** The README's *Install* and *How to use* sections are still being written, so help there is very welcome.
+- **Improve the docs.** The README explains how to install and use the package; contributions that make those instructions clearer are welcome.
 - **Fix an open issue.** Check the [issue tracker](https://github.com/wilmerferreira/rif-venezuela/issues) and comment on the one you'd like to take so work isn't duplicated.
 - **Propose a feature.** Open an issue first so we can agree on the approach before you invest time.
 
@@ -38,7 +38,7 @@ Thanks for your interest in contributing! This project is a .NET library for han
  
 ### Prerequisites
  
-- A recent [.NET SDK](https://dotnet.microsoft.com/download). Check the project files for the target framework in use.
+- The [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), required by the test project. The library itself targets .NET Standard 2.0.
 - Git
 - Any editor or IDE you like (Visual Studio, JetBrains Rider, VS Code with C# Dev Kit, etc.)
 
@@ -58,11 +58,19 @@ Thanks for your interest in contributing! This project is a .NET library for han
    git remote add upstream https://github.com/wilmerferreira/rif-venezuela.git
    ```
  
-4. **Build and test** to confirm everything works before you change anything:
+4. **Restore, build, and test** to confirm everything works before you change anything:
 
    ```sh
-   dotnet build
-   dotnet test
+   dotnet restore rif-venezuela.slnx
+   dotnet build rif-venezuela.slnx --configuration Release --no-restore
+   dotnet test RifVenezuela.Tests/RifVenezuela.Tests.csproj --configuration Release --no-restore
+   ```
+
+   To build or test an individual project, use:
+
+   ```sh
+   dotnet build RifVenezuela/RifVenezuela.csproj
+   dotnet test RifVenezuela.Tests/RifVenezuela.Tests.csproj
    ```
  
 ### Repository layout

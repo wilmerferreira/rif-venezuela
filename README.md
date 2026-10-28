@@ -1,74 +1,60 @@
 # Rif Venezuela
 
-This eventually will become a NuGet package for handling venezuelan tax identification numbers (RIF - Registro de Información Fiscal).
+Rif Venezuela is a .NET library for creating, parsing, validating, and formatting Venezuelan tax identification numbers (RIF, *Registro de Información Fiscal*). It supports the taxpayer kinds `V`, `E`, `J`, `C`, `P`, and `G`, calculates the check digit when creating a RIF, and verifies it when parsing one. The library targets .NET Standard 2.0.
 
-## How to install the nuget package
+## Installation
 
-Once published, the package will be available on NuGet as [`RifVenezuela`](https://www.nuget.org/packages/RifVenezuela).
-
-### .NET CLI
-
-From the directory containing your project file, run:
+Install the `RifVenezuela` package from NuGet into your project:
 
 ```sh
 dotnet add package RifVenezuela
 ```
 
-To install a specific version, use the `--version` option:
+In Visual Studio, you can also right-click the project, choose **Manage NuGet Packages**, search for `RifVenezuela`, and install it.
 
-```sh
-dotnet add package RifVenezuela --version <version>
+## Usage
+
+Create a RIF with its taxpayer kind and identifier. The check digit is calculated automatically:
+
+```csharp
+using RifVenezuela;
+
+var rif = new Rif('V', 12345678);
+
+Console.WriteLine(rif);              // V-12345678-1
+Console.WriteLine(rif.ToString("N")); // V123456781
+Console.WriteLine(rif.ToString("B")); // {V-12345678-1}
 ```
 
-### Visual Studio
+The constructor accepts kinds `V`, `E`, `J`, `C`, `P`, and `G` (case-insensitive), and identifiers from 1 to 99,999,999. It throws `ArgumentOutOfRangeException` when either argument is invalid.
 
-1. Right-click the project in **Solution Explorer** and select **Manage NuGet Packages**.
-2. Select the **Browse** tab and search for `RifVenezuela`.
-3. Select the package published by `Wilmer Ferreira` and click **Install**.
+Parse a RIF string to validate its format and check digit:
 
-### Package Manager Console
-
-In Visual Studio, open **Tools > NuGet Package Manager > Package Manager Console** and run:
-
-```powershell
-Install-Package RifVenezuela
+```csharp
+var parsed = Rif.Parse("V-12345678-1");
+Console.WriteLine(parsed.Kind);       // V
+Console.WriteLine(parsed.Identifier); // 12345678
+Console.WriteLine(parsed.CheckDigit); // 1
 ```
 
-After installation, restore packages and build your project to verify the reference:
+`Parse` accepts the standard dashed format (`D`), the compact format (`N`), and the braced format (`B`). Use `ParseExact` to require one format, or `TryParse` / `TryParseExact` when invalid input should be handled without an exception:
 
-```sh
-dotnet restore
-dotnet build
+```csharp
+if (Rif.TryParse("V123456781", out var rif))
+{
+    Console.WriteLine(rif);
+}
 ```
 
-## How to use this repo
+`Parse` and `ParseExact` throw `FormatException` for invalid RIF values. The format specifiers are:
 
-### Prerequisites
+| Format        | Example           |
+| ------------- | ----------------- |
+| `D` (default) | `V-12345678-1`    |
+| `N`           | `V123456781`      |
+| `B`           | `{V-12345678-1}`  |
 
-Install [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+## More information
 
-### Build and Test
-
-From the repository root, restore the dependencies and build the solution:
-
-```sh
-dotnet restore .\rif-venezuela.slnx
-dotnet build .\rif-venezuela.slnx --configuration Release --no-restore
-```
-
-Run the test suite with:
-
-```sh
-dotnet test .\RifVenezuela.Tests\RifVenezuela.Tests.csproj --configuration Release --no-restore
-```
-
-To build or test an individual project, run:
-
-```sh
-dotnet build .\RifVenezuela\RifVenezuela.csproj
-dotnet test .\RifVenezuela.Tests\RifVenezuela.Tests.csproj
-```
-
-## More Information
-
+- [Contributing to this repository](CONTRIBUTING.md)
 - [Registro Único de Información Fiscal - Wikipedia](https://es.wikipedia.org/wiki/Registro_%C3%9Anico_de_Informaci%C3%B3n_Fiscal)
